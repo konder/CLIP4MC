@@ -37,6 +37,8 @@ VAL_RATIO = config['val_ratio']
 # data directories
 ORIGIN_DATA_DIR = config['origin_data_dir']
 PROCESSED_DATA_DIR = config['processed_data_dir']
+DATASET_INFO_PATH = config.get('dataset_info_path', os.path.join(PROCESSED_DATA_DIR, 'dataset_info.json'))
+
 
 video_dir = os.path.join(ORIGIN_DATA_DIR, 'video')
 video_frame_dir = os.path.join(ORIGIN_DATA_DIR, 'video_frame')
@@ -91,9 +93,7 @@ def split_dataset(process_name: str):
 
 @lru_cache(None)
 def get_processed_list(dataset: Literal['train', 'val', 'test'] = None):
-
-    dataset_info_path = "/json/file/of/dataset"
-    with open(dataset_info_path, 'r') as f:
+    with open(DATASET_INFO_PATH, 'r') as f:
         datasets = json.load(f)
     if dataset is None:
         return datasets
